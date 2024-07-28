@@ -1,7 +1,7 @@
 import data_pp
 import trading
 import numpy as np
-import post_trade as pt
+import post_trade_analysis as pt
 handler = data_pp.DataHandler(ticker='SBIN.NS', start_date='2020-01-01', end_date='2024-01-01')
 handler.fetch_data()
 print(handler.data.head())
