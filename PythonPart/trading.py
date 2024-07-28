@@ -37,6 +37,28 @@ class trading_strategy:
         returns = df['returns'].loc[start_date:end_date].copy()
         
         return returns
+#this function can be used to check the performance of the strategy on two different stocks.  
+def compare_strategy(ticker_1,ticker_2,start_date,end_date):
+    df1=yf.download(ticker_1,start=start_date,end=end_date)
+    df2=yf.download(ticker_2,start=start_date,end=end_date)
+    st1=trading_strategy("ema",df1)
+    st2=trading_strategy('ema2',df2)
+    cum_returns1=st1.execution(df1,start_date=start_date,end_date=end_date)
+    cum_returns2=st2.execution(df2,start_date=start_date,end_date=end_date)
+    cum_returns1=(1+cum_returns1).cumprod()
+    cum_returns2=(1+cum_returns2).cumprod()
+    print(f"The returns of the strategy for {ticker_1} is {cum_returns1}")
+    print(f"The returns of the strategy for {ticker_2} is {cum_returns2}")
+    plt.figure(figsize=(10, 6))
+    plt.plot(cum_returns1.index, cum_returns1, label=f'{ticker_1} Cumulative Returns')
+    plt.plot(cum_returns2.index, cum_returns2, label=f'{ticker_2} Cumulative Returns')
+    plt.xlabel('Date')
+    plt.ylabel('Cumulative Returns')
+    plt.title('Cumulative Returns of Two Stocks')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+    
 
 
 
